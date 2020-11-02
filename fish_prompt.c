@@ -41,12 +41,12 @@ void status(const char *s) {
 void cmd_duration(const char *s) {
 	uint64_t i = strtoull(s, NULL, 10); // saturates
 
-	if (i < 100) return;
+//	if (i < 100) return;
 
-	uint64_t ms = i % 1000;		i /= 1000;
-	uint64_t seconds = i % 60;	i /= 60;
-	uint64_t minutes = i % 60;	i /= 60;
-	uint64_t hours = i % 24;	i /= 24;
+	int ms = i % 1000;		i /= 1000;
+	int seconds = i % 60;		i /= 60;
+	int minutes = i % 60;		i /= 60;
+	int hours = i % 24;		i /= 24;
 	uint64_t days = i;
 	int full = 0;
 	
@@ -54,19 +54,19 @@ void cmd_duration(const char *s) {
 
 	if (days > 0) {
 		full = 1;
-		print("%lud ", days);
+		print("%llud ", days);
 	}
 
 	if (full || hours > 0) {
 		full = 1;
-		print("%02lu:", hours);
+		print("%02d:", hours);
 	}
 	
 	if (full || minutes > 0) {
-		print("%02lu:", minutes);
+		print("%02d:", minutes);
 	}
 	
-	print("%02lu.%03lu] ", seconds, ms);
+	print("%02d.%03d] ", seconds, ms);
 
 }
 

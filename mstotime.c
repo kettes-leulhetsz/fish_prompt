@@ -21,9 +21,9 @@ int main(int argc, char* argv[]) {
 	if (i < 20) return 0;
 
 	uint64_t ms = i % 1000;		i /= 1000;
-	uint64_t seconds = i % 60;	i /= 60;
-	uint64_t minutes = i % 60;	i /= 60;
-	uint64_t hours = i % 24;	i /= 24;
+	int seconds = i % 60;		i /= 60;
+	int minutes = i % 60;		i /= 60;
+	int hours = i % 24;		i /= 24;
 	uint64_t days = i;
 	int full = 0;
 	
@@ -32,22 +32,22 @@ int main(int argc, char* argv[]) {
 	if (days > 0) {
 		full = 1;
 		written += snprintf(out + written, SZ - written, 
-			"%lud ", days);
+			"%llud ", days);
 	}
 
 	if (full || hours > 0) {
 		full = 1;
 		written += snprintf(out + written, SZ - written,
-			"%02lu:", hours);
+			"%02d:", hours);
 	}
 	
 	if (full || minutes > 0) {
 		written += snprintf(out + written, SZ - written,
-			"%02lu:", minutes);
+			"%02d:", minutes);
 	}
 	
 	written += snprintf(out + written, SZ - written, 
-			"%02lu.%03lu] ", seconds, ms);
+			"%02d.%03d] ", seconds, ms);
 
 	write(1, out, written);	
 	return 0;
