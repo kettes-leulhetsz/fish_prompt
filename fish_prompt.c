@@ -5,6 +5,9 @@
 #include <string.h>
 #include <unistd.h>	// write
 
+#include <unistr.h>
+#include <unigbrk.h>
+
 enum size_t { SZ = 32768 };
 char out[SZ];
 size_t written = 0;
@@ -94,18 +97,25 @@ void cwd(int uid) {
 		print("$P");
 		cwd += prefixlen;
 	}
-	
-	char *slash;
-	while ((slash = strchr(cwd, '/'))) {
+
+
+	const uint8_t *dir = (uint8_t*)cwd;
+	const uint8_t *end = dir + u8_strlen(dir);
+
+	const uint8_t *slash;
+	while ((slash = u8_strchr(dir, '/'))) {
 		print("/");
 		while(*slash == '/') slash++;
 		if(*slash) {
-			print("%c", *slash);
-			slash++;
+			const uint8_t *gr = u8_grapheme_next(slash, end);
+			ptrdiff_t bytes = gr - slash;
+			u8_strncpy((uint8_t*)out + written, slash, bytes); //print("%c", *slash);
+			written += bytes;
+			slash = gr;
 		}
-		cwd = slash;
+		dir = slash;
 	}
-	if (cwd && *cwd) print("%s", cwd);
+	if (dir && *dir) print("%s", dir);
 	
 }
 

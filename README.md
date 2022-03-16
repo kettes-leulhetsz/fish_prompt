@@ -10,9 +10,10 @@ This is a small utility to display a prompt much like the fish default.
 
 - compile & install:
 
-```
-clang -Os fish_prompt.c -o fish_prompt
-musl-gcc -static -Os fish_prompt.c -o fish_prompt
+```sh
+mkdir build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make
 
 cp fish_prompt $SOMEWHERE/bin/
 ```
@@ -27,5 +28,3 @@ function fish_prompt --description "Write out the prompt"
 	command fish_prompt $status $CMD_DURATION
 end
 ```
-
-If you just want a human-readable `$CMD_DURATION`, there's `mstotime.c`
