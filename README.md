@@ -6,17 +6,18 @@ This is a small utility to display a prompt much like the fish default.
 - Hardcoded for `TERM=xterm-256color` 
 - When in `$PREFIX`, abbreviates it to `$P/...`.
 
+
 ### Usage
 
 - compile & install:
 
 ```sh
-mkdir build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
-make
+musl-gcc -static fish_prompt.c -o fish_prompt
 
 cp fish_prompt $SOMEWHERE/bin/
 ```
+
+
 
 - use as your prompt:
 
@@ -28,3 +29,15 @@ function fish_prompt --description "Write out the prompt"
 	command fish_prompt $status $CMD_DURATION
 end
 ```
+
+### libunistring
+
+We use code verbatim from [libunistring-1.0](https://www.gnu.org/software/libunistring/), which
+is licensed GPL3 and LGPL3. This is done to enable fully static linking with musl: some platforms
+(Android) have a huge overhead otherwise.
+
+How this interacts with the EUPL is left as an excercise for the reader.
+
+
+
+
