@@ -156,7 +156,7 @@ void printtime() {
     time(&t);
     struct tm _tm = {0};
     localtime_r(&t, &_tm);
-    print("%s%d:%d ", cnormal, _tm.tm_hour, _tm.tm_min);
+    print("%s%02d:%02d ", cnormal, _tm.tm_hour, _tm.tm_min);
 
 
 }
