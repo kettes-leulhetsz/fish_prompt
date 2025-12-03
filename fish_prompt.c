@@ -1,3 +1,5 @@
+#define _POSIX_C_SOURCE 200809L
+
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -5,6 +7,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <time.h>
 
 #include <unistd.h>	// write
 
@@ -148,8 +151,19 @@ void prompt(int uid) {
 	}
 }
 
+void printtime() {
+    time_t t = {0};
+    time(&t);
+    struct tm _tm = {0};
+    localtime_r(&t, &_tm);
+    print("%s%d:%d ", cnormal, _tm.tm_hour, _tm.tm_min);
+
+
+}
+
 int main(int argc, char *argv[]) {
 //	username();
+    printtime();
 	if (argc > 1) status(argv[1]);
 	if (argc > 2) cmd_duration(argv[2]);
 	int uid = geteuid();
